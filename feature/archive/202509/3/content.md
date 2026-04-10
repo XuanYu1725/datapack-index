@@ -341,7 +341,7 @@ $$ \text{ModelViewMat} = B \cdot A = \begin{bmatrix} -\cos\theta & 0 & \sin\thet
 mat4 ModelViewMat = mat4(
     -cos(yaw),  sin(yaw)*sin(pitch), -sin(yaw)*cos(pitch),  0,
         0    ,       cos(pitch)    ,       sin(pitch)    ,  0,
-     sin(yaw), -cos(yaw)*sin(pitch), -cos(yaw)*cos(pitch),  0,
+     sin(yaw), cos(yaw)*sin(pitch), -cos(yaw)*cos(pitch),  0,
         0    ,          0          ,         0           ,  1
 );
 ```
