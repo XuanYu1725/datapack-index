@@ -79,7 +79,7 @@ $$f_{\text{lambert}} = \frac{c}{\pi}$$
 
 事实上，Lambertian BRDF是一个常数函数，表示表面在所有方向上均匀反射光线。$c$ 是纹理的漫反射颜色，分母的 $\pi$ 是为了确保能量守恒。(即定向半球反射率不超过1)
 
-$ f_{\text{cook-torrance}} $ 则是Cook-Torrance模型的镜面反射部分，定义为：
+$f_{\text{cook-torrance}}$ 则是Cook-Torrance模型的镜面反射部分，定义为：
 
 $$f_{\text{cook-torrance}} = \frac{F \cdot D \cdot G}{4 (n \cdot v) (n \cdot l)}$$
 
