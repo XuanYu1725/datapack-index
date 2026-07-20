@@ -39,14 +39,36 @@ pageClass: h2-no-border
 ### 🌟最新
 
 <JournalIndex
-    cover="./cover/202604/202604.png"
-    :coverLink="'./index/202604'"
+    cover="./cover/202607.png"
+    :coverLink="'./index/202607'"
 />
 
 
 <ColorLine />
 
 ### 往期
+
+<JournalIndex
+    cover="./cover/202606/202606.png"
+    :coverLink="'./index/202606'"
+/>
+
+---
+
+<JournalIndex
+    cover="./cover/202605/202605.png"
+    :coverLink="'./index/202605'"
+/>
+
+<ColorLine />
+
+<details>
+<summary>更早</summary>
+
+<JournalIndex
+    cover="./cover/202604/202604.png"
+    :coverLink="'./index/202604'"
+/>
 
 <JournalIndex
     cover="./cover/202603/202603.png"
@@ -66,6 +88,8 @@ pageClass: h2-no-border
     cover="./cover/202601/202601.png"
     :coverLink="'./index/202601'"
 />
+
+</details>
 
 
 <ColorLine />

@@ -21,24 +21,111 @@ import {
     sidebar_202512,
 } from "./sidebar_feature2025"
 import { ViteImageOptimizer } from "vite-plugin-image-optimizer";
+import fs from "node:fs";
+import path from "node:path";
+import type { Plugin } from "vite";
 
 import{
     sidebar_202601,
     sidebar_202602,
     sidebar_202603,
     sidebar_202604,
+    sidebar_202605,
+    sidebar_202606,
+    sidebar_202607,
 }from "./sidebar_feature2026"
 
-//const siteBase = process.env.VITEPRESS_BASE || '/'
+function htmlImagePlugin(): Plugin {
+  let root = "";
+  let outDir = "";
+  let isBuild = false;
+  const imageAssets = new Set<string>();
 
-const siteBase = '/datapack-index/'
+  return {
+    name: "vitepress-html-image-handler",
+    enforce: "pre",
+
+    configResolved(config) {
+      root = config.root || process.cwd();
+      outDir = path.resolve(root, config.build.outDir);
+    },
+
+    config(_, { command }) {
+      isBuild = command === "build";
+    },
+
+    transform(code, id) {
+      if (!isBuild) return null;
+      if (!id.endsWith(".md") && !id.endsWith(".vue")) return null;
+
+      const sourceDir = path.dirname(id);
+
+      const patterns: RegExp[] = [
+        // <img src="..."> in HTML
+        /<img[^>]*src=["']([^"']+)["'][^>]*>/gi,
+        // Vue component props: cover="..." cover='...' cover = "..."
+        /\b(?:cover|background)\s*=\s*["']([^"']+\.(?:png|jpe?g|webp|svg|gif))["']/gi,
+        // :cover="'...'" (dynamic with literal string)
+        /:(?:cover|background)\s*=\s*"([^"]*)"\s*['"]([^"']+\.(?:png|jpe?g|webp|svg|gif))['"]/gi,
+        // bare string in :cover="..." not matching above
+        /:(?:cover|background)\s*=\s*"([./][^"]+\.(?:png|jpe?g|webp|svg|gif))"/gi,
+      ];
+
+      for (const regex of patterns) {
+        let match;
+        while ((match = regex.exec(code)) !== null) {
+          const src = match[match.length - 1]; // last capture group is the path
+          if (/^https?:\/\//.test(src)) continue;
+          if (src.startsWith("/")) continue;
+
+          const resolved = path.resolve(sourceDir, src);
+          if (fs.existsSync(resolved)) {
+            imageAssets.add(resolved);
+          }
+        }
+      }
+
+      return null;
+    },
+
+    closeBundle() {
+      if (!isBuild) return;
+      for (const sourcePath of imageAssets) {
+        const relativePath = path.relative(root, sourcePath).replace(/\\/g, "/");
+        const destPath = path.resolve(outDir, relativePath);
+        try {
+          fs.mkdirSync(path.dirname(destPath), { recursive: true });
+          fs.copyFileSync(sourcePath, destPath);
+        } catch {
+          // skip missing files
+        }
+      }
+    },
+  };
+}
+
+const siteBase = process.env.VITEPRESS_BASE || '/datapack-index/'
+
+
 
 // https://vitepress.dev/reference/site-config
+// @ts-ignore
 export default defineConfig({
     title: "香草图书馆",
     base: siteBase,
     description: "Powered by VitePress",
     themeConfig: {
+        announcementBar: {
+            enabled: true,
+            content: "🎉 香草图书馆特供 Markdown 预览器已上线",
+            link: siteBase + "preview",
+            linkText: "【传送门】",
+            background: "#ffa05a",
+            color: "#ffffff",
+            dismissible: true,
+            doNotShowAgainText: "不再提示",
+            storageKey: "datapack-index-announcement-202606-v2",
+        },
         // https://vitepress.dev/reference/default-theme-config
         outlineTitle: "概览",
         outline: [2, 6],
@@ -46,6 +133,7 @@ export default defineConfig({
             { text: "文档", link: "/index/绪论" },
             { text: "前置馆", link: "/wheel" },
             { text: "《Feature》", link: "/feature/_index" },
+            { text: "预览", link: "/preview" },
             { text: "Wiki", link: "https://zh.minecraft.wiki/" },
         ],
         search: {
@@ -85,6 +173,9 @@ export default defineConfig({
             "/feature/archive/202602": sidebar_202602,
             "/feature/archive/202603": sidebar_202603,
             "/feature/archive/202604": sidebar_202604,
+            "/feature/archive/202605": sidebar_202605,
+            "/feature/archive/202606": sidebar_202606,
+            "/feature/archive/202607": sidebar_202607,
             "/feature/": sidebar_feature,
         },
 
@@ -101,7 +192,7 @@ export default defineConfig({
         },
     },
     head: [
-        ["link", { rel: "icon", href: "/datapack-index/icons/bg5.png" }],
+        ["link", { rel: "icon", href: `/datapack-index/icons/bg5.png` }],
     ],
     ignoreDeadLinks: true,
     lastUpdated: false,
@@ -118,6 +209,51 @@ export default defineConfig({
 
         config: (md) => {
             md.use(anchor);
+
+            // 自动适配硬编码的 /datapack-index/ 链接前缀：当 siteBase 变化时同步替换
+            const normalizedBase = siteBase === '/' ? '/' : siteBase.replace(/\/$/, '');
+            const basePrefix = normalizedBase === '/' ? '' : normalizedBase;
+
+            md.core.ruler.push('normalize_base_links', (state) => {
+                const processTokens = (tokens: any[]) => {
+                    for (const token of tokens) {
+                        if (token.type === 'link_open') {
+                            const idx = token.attrIndex('href');
+                            if (idx >= 0) {
+                                const href: string = token.attrs[idx][1];
+                                if (href.startsWith('/datapack-index/')) {
+                                    token.attrs[idx][1] = basePrefix + href.slice('/datapack-index'.length);
+                                } else if (href === '/datapack-index') {
+                                    token.attrs[idx][1] = normalizedBase;
+                                }
+                            }
+                        }
+                        if (token.type === 'image') {
+                            const idx = token.attrIndex('src');
+                            if (idx >= 0) {
+                                const src: string = token.attrs[idx][1];
+                                if (src.startsWith('/datapack-index/')) {
+                                    token.attrs[idx][1] = basePrefix + src.slice('/datapack-index'.length);
+                                } else if (src === '/datapack-index') {
+                                    token.attrs[idx][1] = normalizedBase;
+                                }
+                            }
+                        }
+                        if (token.type === 'html_inline' || token.type === 'html_block') {
+                            token.content = token.content.replace(
+                                /(href|src)=(["'])\/datapack-index(\/[^"']*)?\2/gi,
+                                (_: string, attr: string, quote: string, rest?: string) =>
+                                    `${attr}=${quote}${basePrefix}${rest || ''}${quote}`
+                            );
+                        }
+                        if (token.children) {
+                            processTokens(token.children);
+                        }
+                    }
+                };
+                processTokens(state.tokens);
+            });
+
             // 获取默认的 image renderer
             const defaultRender = md.renderer.rules.image
 
@@ -157,6 +293,7 @@ export default defineConfig({
             },
         },
         plugins: [
+            htmlImagePlugin(),
             ViteImageOptimizer({
                 png: {
                     quality: 80

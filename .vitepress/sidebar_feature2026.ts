@@ -168,6 +168,7 @@ export const sidebar_202604: DefaultTheme.Sidebar = [
     items: [
       { text: '目录', link: '/feature/index/202604' },
       { text: '上一刊', link: '/feature/index/202603' },
+      { text: '下一刊', link: '/feature/index/202605' },
     ]
   },
   {
@@ -200,6 +201,159 @@ export const sidebar_202604: DefaultTheme.Sidebar = [
     text: '巧匠 Masterpieces',
     items: [
       { text: '我的世界原版视频播放器', link: '/feature/archive/202604/6/content' },
+    ]
+  },
+  {
+    items: [
+      { text: '《Feature》主页', link: '/feature/_index' },
+      { text: '月刊条款', link: '/feature/_条款' },
+      { text: '格式指导', link: '/feature/_格式指导' },
+      { text: '返回主站', link: '/index/绪论' }
+    ]
+  }
+];
+
+export const sidebar_202605: DefaultTheme.Sidebar = [
+  {
+    text: 'Feature 2026.05',
+    items: [
+      { text: '目录', link: '/feature/index/202605' },
+      { text: '上一刊', link: '/feature/index/202604' },
+      { text: '下一刊', link: '/feature/index/202606' },
+    ]
+  },
+  {
+    text: '封二',
+    link: '/feature/archive/202605/ifc/content'
+  },
+  {
+    text: '精选 Featured',
+    items: [
+      { text: '在原版 Minecraft 中实现一个真实好玩的台球游戏', link: '/feature/archive/202605/0/content' },
+    ]
+  },
+  {
+    text: '香草快讯 Λojang Spotlight',
+    items: [
+      { text: '香草快讯 - 2026年5月', link: '/feature/archive/202605/spotlight/content' },
+    ]
+  },
+  {
+    text: '洞见 Insights',
+    items: [
+      { text: '基于新版本模型及模型映射的动画控制器', link: '/feature/archive/202605/1/content' },
+      {text: '杂谈 - 着色器的应用与滥用', link: '/feature/archive/202605/2/content'},
+      {text: '基于面剔除的原版连接纹理', link: '/feature/archive/202605/3/content'},
+    ]
+  },
+  {
+    text: '巧匠 Masterpieces',
+    items: [
+      { text: '挖掘在地下', link: '/feature/archive/202605/4/content' },
+      { text: 'Fast Motion', link: '/feature/archive/202605/5/content' },
+      {text: 'Sequencer Helper', link: '/feature/archive/202605/6/content'},
+    ]
+  },
+  {
+    items: [
+      { text: '《Feature》主页', link: '/feature/_index' },
+      { text: '月刊条款', link: '/feature/_条款' },
+      { text: '格式指导', link: '/feature/_格式指导' },
+      { text: '返回主站', link: '/index/绪论' }
+    ]
+  }
+];
+
+
+export const sidebar_202606: DefaultTheme.Sidebar = [
+  {
+    text: 'Feature 2026.06',
+    items: [
+      { text: '目录', link: '/feature/index/202606' },
+      { text: '上一刊', link: '/feature/index/202605' },
+      { text: '下一刊', link: '/feature/index/202607' },
+    ]
+  },
+  {
+    text: '封二',
+    link: '/feature/archive/202606/ifc/content'
+  },
+  {
+    text: '精选 Featured',
+    items: [
+      { text: '用 Minecraft 还原接水管小游戏：基于 Prim 算法的随机树生成和基于 Tarjan 算法的环路搜索', link: '/feature/archive/202606/0/content' },
+      { text: '接水管地图生成与检验的实现（实体化方案）', link: '/feature/archive/202606/1/content' },
+      { text: '如何将单人游戏适配多人 - 以徐木弦的 Pipes 为例', link: '/feature/archive/202606/2/content' },
+    ]
+  },
+  {
+    text: '香草快讯 ojang Spotlight',
+    items: [
+      { text: '香草快讯 - 2026年6月', link: '/feature/archive/202606/spotlight/content' },
+    ]
+  },
+  {
+    text: '洞见 Insights',
+    items: [
+      { text: '如何检测玩家按下了什么键', link: '/feature/archive/202606/3/content' },
+      { text: 'mcfunction 语言规范（简版）', link: '/feature/archive/202606/4/content' },
+    ]
+  },
+  {
+    text: '巧匠 Masterpieces',
+    items: [
+      { text: '午夜灵魂', link: '/feature/archive/202606/5/content' },
+      { text: '把 Minecraft 建筑搬进 Blockbench：Minecraft OBJ Cubizer 插件', link: '/feature/archive/202606/6/content' },
+    ]
+  },
+  {
+    items: [
+      { text: '《Feature》主页', link: '/feature/_index' },
+      { text: '月刊条款', link: '/feature/_条款' },
+      { text: '格式指导', link: '/feature/_格式指导' },
+      { text: '返回主站', link: '/index/绪论' }
+    ]
+  }
+];
+
+export const sidebar_202607: DefaultTheme.Sidebar = [
+  {
+    text: 'Feature 2026.07',
+    items: [
+      { text: '目录', link: '/feature/index/202607' },
+      { text: '上一刊', link: '/feature/index/202606' },
+    ]
+  },
+  {
+    text: '封二',
+    link: '/feature/archive/202607/ifc/content'
+  },
+  {
+    text: '精选 Featured',
+    items: [
+      { text: '利用数据包进行类DES加密解密', link: '/feature/archive/202607/0/content' }
+    ]
+  },
+  {
+    text: '香草快讯 ojang Spotlight',
+    items: [
+      { text: '香草快讯 - 2026年7月', link: '/feature/archive/202607/spotlight/content' },
+    ]
+  },
+  {
+    text: '洞见 Insights',
+    items: [
+      { text: 'doom.schedule —— 原版服务端调度器', link: '/feature/archive/202607/1/content' },
+      { text: '让所有物品都拥有不死图腾效果的方法', link: '/feature/archive/202607/2/content' },
+      { text: '着色器实践篇 - 灰度和抖动', link: '/feature/archive/202607/3/content' },
+      { text: '着色器实践篇 - 精准采样纹理', link: '/feature/archive/202607/4/content' },
+    ]
+  },
+  {
+    text: '巧匠 Masterpieces',
+    items: [
+      { text: '蟑螂必须死！Pest Cant Pass！', link: '/feature/archive/202607/5/content' },
+      { text: '渐变文本生成器', link: '/feature/archive/202607/6/content' },
     ]
   },
   {
